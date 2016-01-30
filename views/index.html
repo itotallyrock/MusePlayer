@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="res/img/favicon.png" />
+    <link rel="stylesheet" href="res/css/font-awesome.min.css">
+    <link rel="stylesheet" href="res/css/main.css">
+    <link rel="stylesheet" href="res/css/music.css">
+    <script src="res/js/jquery.min.js"></script>
+    <script src="res/js/utils.js"></script>
+    <script src="res/js/thumbnail.js"></script>
+    <title>Muse Player</title>
+</head>
+
+<body>
+    <div class="modal">
+        <div class="body">
+            <!-- <div class="loading">
+                <h1>The Page is Loading Your Music</h1>
+                <i class="fa fa-cog fa-spin fa-5x"></i>
+            </div> -->
+            <div class="error">
+                <i class="fa fa-exclamation fa-5x"></i>
+                <h1>An Unknown Error Has Occured.</h1>
+                <p>Please refresh to continue <a href="#" onclick="location.reload()">Refresh</a>.</p>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="brand">MusePlayer</div>
+        <div class="search">
+            <input type="text" class="searchBox" placeholder="Begin Typing to Search">
+            <div class="searchClear">&times;</div>
+        </div>
+        <!-- <div class="volume">
+            <input type="range" name="name" value="" step="0.001" min="0" max="1" class="volumeControl">
+            <div class="volumeIcon">
+                <i class="fa fa-volume-off"></i>
+            </div>
+        </div> -->
+    </div>
+
+    <div class="songs">
+        <div class="songList"></div>
+    </div>
+
+    <div class="footer">
+        <div class="progressBar">
+            <div class="progress"></div>
+        </div>
+        <div class="currentSong">
+            <div class="image">
+                <div class="thumbnail"></div>
+            </div>
+            <div class="details">
+                <div class="info">Current Song: </div>
+                <div class="name">Untitled Track</div>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="buttons">
+                <div class="button shuffle"><i class="fa fa-random"></i></div>
+                <div class="button rewind"><i class="fa fa-step-backward"></i></div>
+                <div class="button pause"><i class="fa fa-pause"></i></div>
+                <div class="button skip"><i class="fa fa-step-forward"></i></div>
+                <div class="button refresh"><i class="fa fa-repeat"></i></div>
+            </div>
+        </div>
+    </div>
+    <script src="res/js/music.js"></script>
+</body>
+
+</html>
