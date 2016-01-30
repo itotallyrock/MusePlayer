@@ -11,16 +11,8 @@ var server = http.createServer(function(req, res) {
             var file_path = decodeURI(req.url).substring(req.url.indexOf(/([A-z]{0,})(\/[A-z]{1,}\.[A-z]{2,})/), req.url.length);
             fs.readFile('.' + file_path, function(err, content) {
                 if (err) {
-                    fs.readFile('./views/error.html', function(err, content) {
-                        if (err) {
-                            res.writeHead(500);
-                        } else {
-                            res.writeHead(500, {
-                                'Content-Type': 'text/html'
-                            });
-                            res.end(content, 'utf-8');
-                        }
-                    });
+                    res.writeHead(404);
+                    res.end();
                 } else {
                     res.writeHead(200, {
                         'Content-Type': mime.lookup(file_path)
