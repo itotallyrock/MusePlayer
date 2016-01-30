@@ -1,7 +1,7 @@
 var musicPlayer = {
     AUTHOR: "R0CK",
     NAME: "Muse",
-    VERSION: "0.6.0",
+    VERSION: "0.6.4",
     settings: {
         volume: (utils.mobilecheck() ? 1 : 0.2),
         shuffle: true,
@@ -175,7 +175,7 @@ var musicPlayer = {
         return "res/music/" + encodeURI(url);
     },
     generateName: function(url) {
-        return url.replace('_', ' ').replace('.mp3', '').replace(/\[Monstercat.*\]/g, '')
+        return url.replace(".mp3", "").replace(".ogg", "").replace(".wav").replace("_", " ").replace(/\[Monstercat.*\]/g, '').trim()
     },
     getSettings: function() {
         if (localStorage.getItem("settings-" + musicPlayer.VERSION) !== undefined && localStorage.getItem("settings-" + musicPlayer.VERSION) !== null) {
@@ -215,10 +215,10 @@ var musicPlayer = {
             verbose: 3
         });
 
-        $(".currentSong .details .name").text(musicPlayer.rawList[0].replace(".mp3", "").replace("_", " ").trim());
+        $(".currentSong .details .name").text(musicPlayer.generateName(musicPlayer.rawList[0]));
 
         thumbnail.getByName({
-            name: musicPlayer.rawList[0].replace(".mp3", "").replace("_", " ").trim()
+            name: musicPlayer.generateName(musicPlayer.rawList[0])
         }, function(data, err) {
             $(".currentSong .image .thumbnail").css("background-image", "url(" + data + ")");
         });
@@ -320,14 +320,14 @@ var musicPlayer = {
                 musicPlayer.getMusicList(false);
             }
             if (search !== undefined) {
-                if (o.toLowerCase().trim().indexOf(search) > -1) {
+                if (o.toLowerCase().trim().replace("-", "").indexOf(search) > -1) {
                     musicPlayer.logging.log("Drawing song" + o, {
                         verbose: 5
                     });
                     $('.songList').append(template.replace('$SONG_ID', i).replace('$SONG_NAME', musicPlayer.generateName(o)));
                 }
             } else {
-                $('.songList').append(template.replace('$SONG_ID', i).replace('$SONG_NAME', o.replace('_', ' ').replace('.mp3', '').replace(/\[Monstercat.*\]/g, '')));
+                $('.songList').append(template.replace('$SONG_ID', i).replace('$SONG_NAME', musicPlayer.generateName(o).replace(/\[Monstercat.*\]/g, '')));
             }
         });
 
