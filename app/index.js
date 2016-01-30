@@ -46,6 +46,21 @@ var server = http.createServer(function(req, res) {
                     console.log("Request Took: " + (Date.now() - start) + "ms");
                 }
             });
+        } else if (req.url == "/") {
+            var start = Date.now();
+            console.log("GET Request @ " + req.url);
+            fs.readFile('./views/index.html', function(err, content) {
+                if (err) {
+                    res.writeHead(500);
+                    res.end();
+                } else {
+                    res.writeHead(200, {
+                        'Content-Type': 'text/html'
+                    });
+                    res.end(content, 'utf-8');
+                    console.log("Request Took: " + (Date.now() - start) + "ms");
+                }
+            });
         } else if (req.url == "/player") {
             var start = Date.now();
             console.log("GET Request @ " + req.url);
