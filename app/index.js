@@ -33,13 +33,12 @@ var server = http.createServer(function(req, res) {
                 'Location': 'res/img/favicon.png'
             });
             res.end();
-        } else if (req.url.indexOf("/musiclist.json") > -1) {
+        } else if (req.url.indexOf("/api/musiclist.json") > -1) {
+            var start = Date.now();
             fs.readdir(__dirname + "\\..\\res\\music\\", function(err, files) {
                 if (err) {
-                    res.writeHead(302, {
-                        'Location': '/error'
-                    });
-                    res.end();
+                    res.end("['error']");
+                    console.log("Request Took: " + (Date.now() - start) + "ms");
                 } else {
                     var r = [];
                     files.forEach(function(o, i) {
@@ -52,27 +51,11 @@ var server = http.createServer(function(req, res) {
                         });
                     });
                     res.end(JSON.stringify(files));
+                    console.log("Request Took: " + (Date.now() - start) + "ms");
                 }
             });
-        } else if (req.url == "/music") {
-            console.log("GET Request @ " + req.url);
-            fs.readFile('./views/index.html', function(err, content) {
-                if (err) {
-                    res.writeHead(500);
-                    res.end();
-                } else {
-                    res.writeHead(200, {
-                        'Content-Type': 'text/html'
-                    });
-                    res.end("dir", 'utf-8');
-                }
-            });
-        } else if (req.url == "/sw.js") {
-            console.log("GET Request @ " + req.url);
-            //Handle ServiceWorker
-            res.writeHead(200);
-            res.end();
-        } else {
+        } else if (req.url == "/player") {
+            var start = Date.now();
             console.log("GET Request @ " + req.url);
             fs.readFile('./views/index.html', function(err, content) {
                 if (err) {
@@ -83,8 +66,24 @@ var server = http.createServer(function(req, res) {
                         'Content-Type': 'text/html'
                     });
                     res.end(content, 'utf-8');
+                    console.log("Request Took: " + (Date.now() - start) + "ms");
                 }
             });
+        } else {
+            console.log("GET Request @ " + req.url);
+            // fs.readFile('./views/index.html', function(err, content) {
+            //     if (err) {
+            //         res.writeHead(500);
+            //         res.end();
+            //     } else {
+            //         res.writeHead(200, {
+            //             'Content-Type': 'text/html'
+            //         });
+            //         res.end(content, 'utf-8');
+            //     }
+            // });
+            res.writeHead(404);
+            res.end("404 Page Not Found");
         }
     }
 });
@@ -96,7 +95,7 @@ fs.watch(__dirname + '/../res/sass', function(event, filename) {
             require('node-sass').render({
                 file: __dirname + '/../res/sass/' + filename,
                 outFile: __dirname + '/../res/css/' + filename.replace('.sass', '.css'),
-                outputStyle: 'compressed'    
+                outputStyle: 'compressed'
             }, function(err, res) {
                 if (err) {
                     console.log("Error Compiling", err);

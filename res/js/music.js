@@ -287,7 +287,7 @@ var musicPlayer = {
         }
     },
     getMusicList: function(init) {
-        $.getJSON("/musiclist.json").done(function(data) {
+        $.getJSON("/api/musiclist.json").done(function(data) {
             musicPlayer.rawList = (musicPlayer.settings.shuffle ? utils.shuffle(data) : data);
             if (init) {
                 musicPlayer.init();
