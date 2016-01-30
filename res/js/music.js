@@ -295,7 +295,8 @@ var musicPlayer = {
         }).fail(function(error) {
             //Handle Error
             musicPlayer.logging.error(["Error Occuring While Fetching Music List", error], {
-                verbose: 0
+                verbose: 0,
+                alert: true
             });
         });
     },
