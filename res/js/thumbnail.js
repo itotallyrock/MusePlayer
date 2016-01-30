@@ -10,14 +10,11 @@ var thumbnail = {
             }
 
             $.getJSON(url).success(function(data, err) {
-                console.log(data.items[0].snippet.thumbnails.high.url);
                 callback(data.items[0].snippet.thumbnails.high.url, err);
             }).fail(function(err) {
-                console.log("Error Retrieving YouTube Data.");
+                console.warn("Error Retrieving YouTube Data.");
                 callback("res/img/noimage240x180.png", err);
             });
-        } else {
-            throw new Exception("Undefined Name");
         }
     }
 }
