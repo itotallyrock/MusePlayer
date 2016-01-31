@@ -5,34 +5,10 @@ var musicPlayer = {
     settings: {
         volume: (utils.mobilecheck() ? 1 : 0.2),
         shuffle: true,
-        verbose: 4
+        verbose: 1
     },
     started: false,
     rawList: [],
-    tick: {
-        tickInterval: undefined,
-        ticks: 0,
-        tickRate: 10, //Ticks Per Second
-        tick: function() {
-            var tickTime = Date.now();
-            musicPlayer.tick.ticks++;
-
-            if (!musicPlayer.player.paused) {
-                $(".progressBar .progress").css("width", (musicPlayer.player.currentTime / musicPlayer.player.duration) * 100 + "%");
-            }
-
-            musicPlayer.logging.info("Tick #" + musicPlayer.tick.ticks + " (" + (Date.now() - tickTime == 0 ? 0 : Date.now() - tickTime) + ")", {
-                verbose: 5
-            });
-            if (Date.now() - tickTime > (1 / musicPlayer.tick.tickRate) * 1000) {
-                //Handle Tick Taking Longer than Tick Rate
-                musicPlayer.logging.error("Tick #" + musicPlayer.tick.ticks + " took longer than tickrate (" + musicPlayer.tick.tickRate + ") at " + Date.now() - tickTime + "ms", {
-                    verbose: 5
-                });
-                clearInterval(musicPlayer.tick.tick);
-            }
-        }
-    },
     player: new Audio(),
     logging: {
         prefix: "[Muse]",
@@ -127,10 +103,6 @@ var musicPlayer = {
                 }
             });
         }
-        // ENABLE TICK
-        // musicPlayer.tick.tickInterval = setInterval(function() {
-        //     musicPlayer.tick.tick();
-        // }, (1 / musicPlayer.tick.tickRate) * 1000);
 
         if (musicPlayer.settings.shuffle) {
             $('.button.shuffle').addClass('active')
@@ -181,8 +153,8 @@ var musicPlayer = {
         if (localStorage.getItem("settings-" + musicPlayer.VERSION) !== undefined && localStorage.getItem("settings-" + musicPlayer.VERSION) !== null) {
             try {
                 musicPlayer.settings = JSON.parse(localStorage.getItem("settings-" + musicPlayer.VERSION));
-                musicPlayer.logging.info("Retrieved Settings", {
-                    verbose: 3
+                musicPlayer.logging.info(["Retrieved Settings", "localStorage[settings-" + musicPlayer.VERSION + "] = " + JSON.stringify(musicPlayer.settings)], {
+                    verbose: 2
                 });
             } catch (error) {
                 musicPlayer.logging.error("Invalid Settings Saved, removing old settings", {
@@ -191,15 +163,11 @@ var musicPlayer = {
                 localStorage.removeItem("settings-" + musicPlayer.VERSION);
             }
         }
-        musicPlayer.logging.warn("localStorage.getItem(settings-" + musicPlayer.VERSION + ") = " + localStorage.getItem("settings-" + musicPlayer.VERSION), {
-            verbose: 1
-        });
     },
     saveSettings: function() {
-        musicPlayer.logging.info("Saved Settings", {
+        musicPlayer.logging.info(["Saved Settings", "localStorage[settings-" + musicPlayer.VERSION + "] = " + JSON.stringify(musicPlayer.settings)], {
             verbose: 2
         });
-        console.log("localStorage[settings-" + musicPlayer.VERISON + "] = " + JSON.stringify(musicPlayer.settings));
         localStorage.setItem("settings-" + musicPlayer.VERSION, JSON.stringify(musicPlayer.settings));
     },
     onended: function() {
@@ -244,14 +212,6 @@ var musicPlayer = {
             $(".progressBar .progress").css("width", (musicPlayer.player.currentTime / musicPlayer.player.duration) * 100 + "%");
         }
     },
-    // TODO Fix Broken
-    // onpause: function() {
-    //     if (!musicPlayer.started) {
-    //         musicPlayer.started = true;
-    //     }
-    //     (musicPlayer.player.paused ? musicPlayer.player.play() : musicPlayer.player.pause());
-    //     $(".pause i").attr("class", (musicPlayer.player.paused ? 'fa fa-pause' : 'fa fa-play'));
-    // },
     togglepause: function() {
         if (!musicPlayer.started) {
             musicPlayer.started = true;
@@ -262,8 +222,11 @@ var musicPlayer = {
     toggleshuffle: function() {
         console.log("toggle shuffle");
         musicPlayer.settings.shuffle = !musicPlayer.settings.shuffle;
-
-        $(".button.shuffle").toggleClass('active');
+        if (musicPlayer.settings.shuffle) {
+            $(".button.shuffle").addClass('active');
+        } else {
+            $(".button.shuffle").removeClass('active');
+        }
     },
     changeVolume: function(volume) {
         musicPlayer.player.volume = volume;
@@ -293,7 +256,6 @@ var musicPlayer = {
                 musicPlayer.init();
             }
         }).fail(function(error) {
-            //Handle Error
             musicPlayer.logging.error(["Error Occuring While Fetching Music List", error], {
                 verbose: 0,
                 alert: true
@@ -351,7 +313,6 @@ window.onerror = function(errorMsg, file, lineNumber, column, errorObj) {
 };
 
 window.onbeforeunload = function() {
-    clearInterval(musicPlayer.tick.tickInterval);
     musicPlayer.saveSettings();
 };
 
