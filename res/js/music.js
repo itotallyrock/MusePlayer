@@ -75,9 +75,9 @@ var musicPlayer = {
                         }
                     }, 50);
                 } else {
-                    if (event.keyCode == 45 || event.keyCode == 189) { //Minus
+                    if (event.keyCode == 45 || event.keyCode == 189 || event.keyCode == 173 || event.keyCode == 109) { //Minus
                         musicPlayer.changeVolume((musicPlayer.settings.volume - 0.02 < 0 ? 0 : musicPlayer.settings.volume - 0.02));
-                    } else if (event.keyCode == 61 || event.keyCode == 187) { //Plus
+                    } else if (event.keyCode == 61 || event.keyCode == 187 || event.keyCode == 107) { //Plus
                         musicPlayer.changeVolume((musicPlayer.settings.volume + 0.02 > 1 ? 1 : musicPlayer.settings.volume + 0.02));
                     } else {
                         if (event.keyCode == 8) { //Backspace
