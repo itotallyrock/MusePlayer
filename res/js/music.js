@@ -211,13 +211,17 @@ var musicPlayer = {
         if (!musicPlayer.player.paused) {
             $(".progressBar .progress").css("width", (musicPlayer.player.currentTime / musicPlayer.player.duration) * 100 + "%");
         }
+        // if (!musicPlayer.player.paused) {
+        //     musicPlayer.started = false;
+        // }
+        $(".pause i").attr("class", (musicPlayer.player.paused ? 'fa fa-play' : 'fa fa-pause'));
     },
     togglepause: function() {
         if (!musicPlayer.started) {
             musicPlayer.started = true;
         }
         (musicPlayer.player.paused ? musicPlayer.player.play() : musicPlayer.player.pause());
-        $(".pause i").attr("class", (musicPlayer.player.paused ? 'fa fa-pause' : 'fa fa-play'));
+        $(".pause i").attr("class", (musicPlayer.player.paused ? 'fa fa-play' : 'fa fa-pause'));
     },
     toggleshuffle: function() {
         console.log("toggle shuffle");
