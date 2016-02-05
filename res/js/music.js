@@ -221,7 +221,7 @@ var musicPlayer = {
             musicPlayer.started = true;
         }
         (musicPlayer.player.paused ? musicPlayer.player.play() : musicPlayer.player.pause());
-        $(".pause i").attr("class", (musicPlayer.player.paused ? 'fa fa-play' : 'fa fa-pause'));
+        // $(".pause i").attr("class", (musicPlayer.player.paused ? 'fa fa-play' : 'fa fa-pause'));
     },
     toggleshuffle: function() {
         console.log("toggle shuffle");
