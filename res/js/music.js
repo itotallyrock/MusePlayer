@@ -234,7 +234,7 @@ var musicPlayer = {
         }
     },
     changeVolume: function(volume) {
-        var perfectVolume = (volume > 1 : 1 ? (volume < 0 ? 0 : parseFloat(volume)));
+        var perfectVolume = (volume > 1 ? 1 : (volume < 0 ? 0 : parseFloat(volume)));
         musicPlayer.player.volume = perfectVolume;
         musicPlayer.settings.volume = perfectVolume;
         this.saveSettings();
