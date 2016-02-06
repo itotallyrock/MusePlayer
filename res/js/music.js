@@ -63,6 +63,7 @@ var musicPlayer = {
 
         if (!utils.mobilecheck()) {
             $(".search .searchBox").attr("disabled", "disabled");
+            $('.controls').append('<div class="volume"><input type="range" name="name" value="" step="0.001" min="0" max="1" class="volumeControl"></div>');
 
             $(document).on("keydown", function(event) {
                 musicPlayer.logging.info("Keypress (" + event.keyCode + ")", {
@@ -233,10 +234,11 @@ var musicPlayer = {
         }
     },
     changeVolume: function(volume) {
-        musicPlayer.player.volume = volume;
-        musicPlayer.settings.volume = volume;
+        var perfectVolume = (volume > 1 : 1 ? (volume < 0 ? 0 : parseFloat(volume)));
+        musicPlayer.player.volume = perfectVolume;
+        musicPlayer.settings.volume = perfectVolume;
         this.saveSettings();
-        $(".volumeControl").val(volume);
+        $(".volumeControl").val(perfectVolume);
     },
     skip: function() {
         musicPlayer.player.pause();
