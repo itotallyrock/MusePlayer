@@ -123,6 +123,9 @@ var musicPlayer = {
             $(".search .searchBox").val("");
             musicPlayer.drawSongs();
         });
+        $('.fullscreen').on('click', function(e) {
+            musicPlayer.togglefullscreen();
+        });
         $('.button.rewind').on('click', function(e) {
             musicPlayer.resetSong();
         });
@@ -216,6 +219,13 @@ var musicPlayer = {
         //     musicPlayer.started = false;
         // }
         $(".pause i").attr("class", (musicPlayer.player.paused ? 'fa fa-play' : 'fa fa-pause'));
+    },
+    togglefullscreen: function() {
+        if($(document)[0].webkitIsFullScreen){
+            $(document)[0].webkitExitFullscreen();
+        }else{
+            $(document)[0].documentElement.webkitRequestFullScreen();
+        }
     },
     togglepause: function() {
         if (!musicPlayer.started) {

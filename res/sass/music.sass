@@ -2,6 +2,8 @@ $primaryColor: #D80A60
 $secondaryColor: darken($primaryColor, 30)
 $buttonBackground: #676767
 
+$breakpoint: 500px
+
 //$secondaryColor: #65394F
 
 .button
@@ -56,10 +58,22 @@ $buttonBackground: #676767
             border-style: none
         .searchClear
             position: absolute
-            right: 0px
+            right: 45px
             top: 0px
             padding: 12px 20px
             cursor: pointer
+    .fullscreen
+        display: inline-flex
+        flex-direction: column
+        height: 100%
+        /*width: 70px*/
+        padding: 0px 20px
+        cursor: pointer
+        text-align: center
+        background-color: $primaryColor
+        .fa
+            color: #ffffff
+            line-height: 40px
     .volume
         display: flex
         flex-direction: row
@@ -82,6 +96,7 @@ $buttonBackground: #676767
     display: flex
     flex-direction: row
     width: 100%
+    background: url("../img/squares.png")
 
 .songList
     width: 100%
@@ -120,9 +135,13 @@ $buttonBackground: #676767
         height: 5px
         width: 100%
         background-color: #676767
+        @media (min-width: $breakpoint)
+            height: 15px
         .progress
             height: 5px
             background-color: $secondaryColor
+            @media (min-width: $breakpoint)
+                height: 15px
     .currentSong
         display: flex
         flex-direction: row
